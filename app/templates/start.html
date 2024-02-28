@@ -2,15 +2,26 @@
 
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <p>Welkom bij de Sjoelorama! voor dat je begint, lees even de volgende regels</p>
-    <ol class="list-group list-group-numbered">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Cras justo odio</li>
-      </ol>
-      <br>
-      als je klaar bent druk op next om door te gaan!
-      <a href="aanmelden" type="button" class="btn btn-success">next</a>
-</div>
+  <div class="container">
+      <p>Welkom bij de Sjoelorama! voor dat je begint, lees even de volgende regels</p>
+      <ol class="list-group list-group-numbered">
+        <li>Een sjoelbak wordt gebruikt, met aan het eind 4 poorten.</li>
+        <li>Elke speler heeft 30 stenen.</li>
+        <li>Stenen worden met een duw in de poorten geschoven.</li>
+        <li>Een steen die over de rand hangt mag niet meer gespeeld worden.</li>
+        <li>De score wordt berekend door te kijken in welke vakken de stenen terechtkomen:
+          <ul>
+            <li>Stenen in de eerste poort (meest naar beneden) zijn 2 punten waard.</li>
+            <li>Stenen in de tweede poort zijn 3 punten waard.</li>
+            <li>Stenen in de derde poort zijn 4 punten waard.</li>
+            <li>Stenen in de vierde poort (meest naar boven) zijn 1 punt waard.</li>
+          </ul>
+        </li>
+        <li>Als een speler minstens één steen in elke poort heeft, krijgt die speler een bonus van 20 punten.</li>
+        <li>De speler met de hoogste totale score wint.</li>
+        </ol>
+        <br>
+        als je klaar bent druk op next om door te gaan!
+        <a href="aanmelden" type="button" class="btn btn-success">next</a>
+  </div>
 {% endblock %}

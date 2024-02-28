@@ -103,7 +103,7 @@
 
 
 </script>
-
+<p>Druk op start om je spel te beginnen<br>Druk op stop om een spel te pauzeren (om bijvoorbeeld je stenen te pakken) <br> druk op volgende speler om de beurt door te geven</p>
 <table class="table">
     <tr>
         <th>naam</th>
@@ -124,10 +124,11 @@
         <td><div id = "scs{{speler.id}}">0</div></td>
     </tr>
     {% endfor %}
+    </table>
     <button type="button" id= "stopbtn"  onclick="stop_spel()" class="btn btn-success" disabled>Stop!</button>
     <button type="button" id= "startbtn" onclick="start_spel()" class="btn btn-success">Start!</button>
     <button type="button" id= "nextbtn" onclick="volgende_speler()" class="btn btn-success" disabled>Volgende speler</button>
     
    
-</table>
+
 {% endblock %}

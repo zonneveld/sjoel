@@ -1,6 +1,8 @@
 <!-- hier komen de invoervelden -->
 {% extends "base.html" %}
 {% block content %}
+<p>Vul hier de namen van de spelers in</p>
+<p>(ben je met minder dan 4 spelers? laat de resterende vakjes leeg)</p>
 <form action="/speel" method="get">
     <div class="">
         <label for="speler1">Speler 1</label>
@@ -19,7 +21,7 @@
         <input type="text" name="speler4">
         <br>
 
-        <input type="submit" value="start!">
+        <input class="btn btn-success" type="submit" value="start!">
     </div>
 </form>
 {% endblock %}
