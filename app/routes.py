@@ -5,7 +5,8 @@ from app import app
 
 from app.machine import Machine
 
-import time
+machine = Machine()
+machine.start()
 
 
 @app.route('/')
@@ -47,8 +48,6 @@ def winnaar():
 @app.route('/listen')
 def stream_data():
     def generator():
-        machine = Machine()
-        machine.start()
         while True:
             while not machine.check():
                 pass
