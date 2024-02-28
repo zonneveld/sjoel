@@ -1,6 +1,80 @@
 <!-- hier komen de huidige score -->
 {% extends "base.html" %}
 {% block content %}
+
+<script>
+    function update_score(huidige_speler)
+    {
+        var min = Math.min.apply(Math,huidige_speler.speler_punten);
+        console.log(min)
+        huidige_speler.speler_score = min * 20;
+        for(var i = 0; i < 4; i++)
+        {
+            huidige_speler.speler_score +=  (i+1) * huidige_speler.speler_punten[i];
+        }
+        document.getElementById("p1s"+huidige_speler.spelerid).innerText = huidige_speler.speler_punten[0];
+        document.getElementById("p2s"+huidige_speler.spelerid).innerText = huidige_speler.speler_punten[1];
+        document.getElementById("p3s"+huidige_speler.spelerid).innerText = huidige_speler.speler_punten[2];
+        document.getElementById("p4s"+huidige_speler.spelerid).innerText = huidige_speler.speler_punten[3];
+        document.getElementById("scs"+huidige_speler.spelerid).innerText = huidige_speler.speler_score;    
+    }
+
+    var spelers = []
+    var actief = false;
+    //{% for speler in spelers %}
+    spelers.push(
+        {
+            spelerid: "{{speler.id}}",
+            spelernaam: "{{speler.naam}}",
+            speler_punten: [0,0,0,0],
+            speler_score: 0
+        }
+    )
+    //{% endfor %}
+    huidige_speler_id = 0
+    huidige_speler = spelers[huidige_speler_id]
+
+    var source = new EventSource("/listen");
+    source.onmessage = function(event) {
+        // console.log(event.data);
+        console.log(event.data)
+        if(actief)
+        {
+            poort = Number(event.data) - 1;
+            huidige_speler.speler_punten[poort]++;
+            update_score(huidige_speler)
+        }
+    }; 
+
+    function volgende_speler()
+    {
+        huidige_speler_id++;
+        if(huidige_speler_id >= spelers.length)
+        {
+            huidige_speler_id = 0;
+        }
+        huidige_speler = spelers[huidige_speler_id]
+
+    }
+    function start_spel()
+    {
+        actief = true
+        document.getElementById("startbtn").disabled = true; 
+        document.getElementById("nextbtn").disabled = true;
+        document.getElementById("stopbtn").disabled = false; 
+        
+        
+    }
+    function stop_spel()
+    {
+        actief = false
+        document.getElementById("startbtn").disabled = false; 
+        document.getElementById("nextbtn").disabled = false;
+        document.getElementById("stopbtn").disabled = true;  
+    }
+
+</script>
+
 <table class="table">
     <tr>
         <th>naam</th>
@@ -8,15 +82,23 @@
         <th>poort 2</th>
         <th>poort 3</th>
         <th>poort 4</th>
+        <th>score</th>
     </tr>
     {% for speler in spelers %}
     <tr>
-        <td>{{speler.naam}}</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
+        
+        <td><div>{{speler.naam}} </div></td>
+        <td><div id = "p1s{{speler.id}}">0</div></td>
+        <td><div id = "p2s{{speler.id}}">0</div></td>
+        <td><div id = "p3s{{speler.id}}">0</div></td>
+        <td><div id = "p4s{{speler.id}}">0</div></td>
+        <td><div id = "scs{{speler.id}}">0</div></td>
     </tr>
     {% endfor %}
+    <button type="button" id= "stopbtn"  onclick="stop_spel()" class="btn btn-success" disabled>Stop!</button>
+    <button type="button" id= "startbtn" onclick="start_spel()" class="btn btn-success">Start!</button>
+    <button type="button" id= "nextbtn" onclick="volgende_speler()" class="btn btn-success" disabled>Volgende speler</button>
+    
+   
 </table>
 {% endblock %}

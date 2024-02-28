@@ -1,5 +1,25 @@
 <!-- hier komen de invoervelden -->
 {% extends "base.html" %}
 {% block content %}
+<form action="/speel" method="get">
+    <div class="">
+        <label for="speler1">Speler 1</label>
+        <input type="text" name="speler1">
+        <br>
+        
+        <label for="speler2">Speler 2</label>
+        <input type="text" name="speler2">
+        <br>
 
+        <label for="speler3">Speler 3</label>
+        <input type="text" name="speler3">
+        <br>
+
+        <label for="speler4">Speler 4</label>
+        <input type="text" name="speler4">
+        <br>
+
+        <input type="submit" value="start!">
+    </div>
+</form>
 {% endblock %}
