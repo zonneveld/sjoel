@@ -31,9 +31,63 @@
         }
     )
     //{% endfor %}
+
+    function show_speler()
+    {
+        for(var i = 0; i < spelers.length; i++)
+        {
+            console.log("nm"+i)
+            document.getElementById("nm"+i).innerHTML = spelers[i].spelernaam;
+
+        }
+        document.getElementById("nm"+huidige_speler.spelerid).innerHTML = "<b>"+huidige_speler.spelernaam+"</b>";
+    }
+    function volgende_speler()
+    {
+        huidige_speler_id++;
+        if(huidige_speler_id >= spelers.length - 1)
+        {
+            document.getElementById("nextbtn").innerText = "Beeindig spel!";
+        }
+        if(huidige_speler_id >= spelers.length)
+        {
+            winnaar = spelers[0];
+            for(var i = 0; i < spelers.length; i++)
+            {
+                if(spelers[i].speler_score > winnaar.speler_score)
+                {
+                    winnaar = spelers[i]
+                }
+
+            }
+            let url = `/winnaar?naam=${winnaar.spelernaam}&score=${winnaar.speler_score}`;
+            location.replace(url);
+        }
+
+        huidige_speler = spelers[huidige_speler_id]
+        show_speler();
+
+
+    }
+    function start_spel()
+    {
+        actief = true
+        show_speler();
+        document.getElementById("startbtn").disabled = true; 
+        document.getElementById("nextbtn").disabled = true;
+        document.getElementById("stopbtn").disabled = false;   
+        
+    }
+    function stop_spel()
+    {
+        actief = false
+        document.getElementById("startbtn").disabled = false; 
+        document.getElementById("nextbtn").disabled = false;
+        document.getElementById("stopbtn").disabled = true;  
+    }
+
     huidige_speler_id = 0
     huidige_speler = spelers[huidige_speler_id]
-
     var source = new EventSource("/listen");
     source.onmessage = function(event) {
         // console.log(event.data);
@@ -46,32 +100,7 @@
         }
     }; 
 
-    function volgende_speler()
-    {
-        huidige_speler_id++;
-        if(huidige_speler_id >= spelers.length)
-        {
-            huidige_speler_id = 0;
-        }
-        huidige_speler = spelers[huidige_speler_id]
 
-    }
-    function start_spel()
-    {
-        actief = true
-        document.getElementById("startbtn").disabled = true; 
-        document.getElementById("nextbtn").disabled = true;
-        document.getElementById("stopbtn").disabled = false; 
-        
-        
-    }
-    function stop_spel()
-    {
-        actief = false
-        document.getElementById("startbtn").disabled = false; 
-        document.getElementById("nextbtn").disabled = false;
-        document.getElementById("stopbtn").disabled = true;  
-    }
 
 </script>
 
@@ -87,7 +116,7 @@
     {% for speler in spelers %}
     <tr>
         
-        <td><div>{{speler.naam}} </div></td>
+        <td><div id="nm{{speler.id}}">{{speler.naam}} </div></td>
         <td><div id = "p1s{{speler.id}}">0</div></td>
         <td><div id = "p2s{{speler.id}}">0</div></td>
         <td><div id = "p3s{{speler.id}}">0</div></td>

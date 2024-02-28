@@ -34,22 +34,15 @@ def speel():
                 }
             )
             id += 1
-    # testspelers =[   
-    #     {
-    #         'naam':'jantje',
-    #         'score':0
-    #     },
-        
-    #     {
-    #         'naam':'pietje',
-    #         'score':0
-    #     }
-    # ]
     return render_template('speel.html', spelers = huidgespelers)
 
-@app.route('/winnaar')
+@app.route('/winnaar', methods = ['GET'])
 def winnaar():
-    return render_template('winnaar.html')
+    winnaar_speler ={
+        'naam':request.args.get("naam"),
+        'score':request.args.get("score")
+    }
+    return render_template('winnaar.html',winnaar = winnaar_speler)
 
 @app.route('/listen')
 def stream_data():
@@ -64,5 +57,5 @@ def stream_data():
             data = f'data: {r_data}\n\n'
             print(f"yielding {r_data}")
             yield data
-            
+
     return Response(generator(),mimetype='text/event-stream')
